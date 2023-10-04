@@ -33,7 +33,7 @@ public class Ventana extends javax.swing.JFrame {
     
     //Variable controladora global
     int turnos,encontradas,insignia;
-    String comparador;
+    String comparador,botonTipo;
     JButton controlador;
     
     //declarar los modelos para los combobox
@@ -195,6 +195,7 @@ public class Ventana extends javax.swing.JFrame {
     private void BtnCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCambioActionPerformed
         PanelBtn.removeAll();
         insignia=0;
+        botonTipo=Tipos.getSelectedItem().toString();
         int ControladorParejas=Integer.parseInt(Parejas.getSelectedItem().toString());
         ArrayList<Integer> numeros = new ArrayList<>();
 
@@ -213,19 +214,7 @@ public class Ventana extends javax.swing.JFrame {
             } while (Collections.frequency(numeros, numeroAleatorio) >= 2);
 
             numeros.add(numeroAleatorio);
-            if(Tipos.getSelectedItem().toString()=="Letras"){
-                char charAleatorio=(char)(numeroAleatorio+64);
-                 Botones(charAleatorio,ControladorParejas);
-               
-            }
-            if(Tipos.getSelectedItem().toString()=="Numeros"){
-                Botones(numeroAleatorio,ControladorParejas);
-            }
-            if(Tipos.getSelectedItem().toString()=="Imagenes"){
-                JButton btn= new JButton("No llego a eso pa");
-                PanelBtn.add(btn);
-            }
-                
+            Botones(numeroAleatorio,ControladorParejas);
         }
         PanelBtn.updateUI();//Al terminar todo se hace un refresh a la pantalla
     }//GEN-LAST:event_BtnCambioActionPerformed
@@ -284,55 +273,6 @@ public class Ventana extends javax.swing.JFrame {
         });
     }
 
-    public void Botones(char si,int parejas){
-        int nparejas=parejas;
-        Font font = new Font("Dialog", Font.PLAIN, 30);
-        JButton btn= new JButton("↻");
-        btn.setFont(font);
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn.setText(si+"");
-                insignia++;
-                btn.setForeground(Color.WHITE);
-                btn.setBackground(Color.BLACK);
-                btn.setEnabled(false);
-                if(insignia==1){
-                    comparador=btn.getText();
-                    controlador=btn;
-                }
-                if(insignia==2){  
-                    insignia=0;
-                    turnos++;
-                    txtTurnos.setText(turnos+"");
-                    if(btn.getText().equals(comparador)){
-                        encontradas++;
-                        JOptionPane.showMessageDialog(null, "Pareja encontrada");
-                        PanelBtn.remove(controlador);
-                        PanelBtn.remove(btn);
-                        txtContador.setText(encontradas+"/"+parejas);
-                        if(encontradas==parejas){
-                            JOptionPane.showMessageDialog(null, "Juego terminado en "+turnos+" intentos");
-                        }
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Sigue intentando");
-                        btn.setText("↻");
-                        controlador.setText("↻");
-                        btn.setForeground(Color.BLACK);
-                        btn.setBackground(Color.WHITE);
-                        controlador.setForeground(Color.BLACK);
-                        controlador.setBackground(Color.WHITE);
-                        btn.setEnabled(true);
-                        controlador.setEnabled(true);
-                    }
-                }
-                PanelBtn.updateUI();
-            }
-            
-        });
-        PanelBtn.add(btn);
-    }
     public void Botones(int random, int parejas){
         Font font = new Font("Dialog", Font.PLAIN, 30);
         JButton btn= new JButton("↻");
@@ -341,7 +281,17 @@ public class Ventana extends javax.swing.JFrame {
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btn.setText(random+"");
+                
+                if(botonTipo=="Numeros"){
+                    btn.setText(random+"");
+                }
+                if(botonTipo=="Letras"){
+                    char si= (char)(random+64);
+                    btn.setText(si+"");
+                }
+                if(botonTipo=="Imagenes"){
+                    btn.setText("No llego aun");
+                }
                 insignia++;
                 btn.setForeground(Color.WHITE);
                 btn.setBackground(Color.BLACK);

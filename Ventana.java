@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -29,7 +31,10 @@ public class Ventana extends javax.swing.JFrame {
     Random rand = new Random();
     
     //Variable controladora global
-    int turnos,encontradas;
+    int turnos,encontradas,insignia;
+    String comparador;
+    JButton controlador;
+    
     //declarar los modelos para los combobox
     DefaultComboBoxModel ModeloParejas = new DefaultComboBoxModel();
     DefaultComboBoxModel ModeloTipos = new DefaultComboBoxModel();
@@ -188,7 +193,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void BtnCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCambioActionPerformed
         PanelBtn.removeAll();
-
+        insignia=0;
         int ControladorParejas=Integer.parseInt(Parejas.getSelectedItem().toString());
         ArrayList<Integer> numeros = new ArrayList<>();
 
@@ -208,12 +213,12 @@ public class Ventana extends javax.swing.JFrame {
 
             numeros.add(numeroAleatorio);
             if(Tipos.getSelectedItem().toString()=="Letras"){
-                char charAleatorio=(char) (numeroAleatorio+64);
-                 Botones(charAleatorio);
+                char charAleatorio=(char)(numeroAleatorio+64);
+                 Botones(charAleatorio,ControladorParejas);
                
             }
             if(Tipos.getSelectedItem().toString()=="Numeros"){
-                Botones(numeroAleatorio);
+                Botones(numeroAleatorio,ControladorParejas);
             }
             if(Tipos.getSelectedItem().toString()=="Imagenes"){
                 JButton btn= new JButton("No llego a eso pa");
@@ -278,11 +283,8 @@ public class Ventana extends javax.swing.JFrame {
         });
     }
 
-    /**
-     *
-     * @return
-     */
-    public void Botones(char si){
+    public void Botones(char si,int parejas){
+        int nparejas=parejas;
         Font font = new Font("Dialog", Font.PLAIN, 30);
         JButton btn= new JButton("↻");
         btn.setFont(font);
@@ -290,11 +292,38 @@ public class Ventana extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btn.setText(si+"");
+                insignia++;
+                if(insignia==1){
+                    comparador=btn.getText();
+                    controlador=btn;
+                }
+                if(insignia==2){  
+                    insignia=0;
+                    turnos++;
+                    txtTurnos.setText(turnos+"");
+                    if(btn.getText().equals(comparador)){
+                        encontradas++;
+                         mensaje("Pareja encontrada");
+                        PanelBtn.remove(controlador);
+                        PanelBtn.remove(btn);
+                        txtContador.setText(encontradas+"/"+parejas);
+                        if(encontradas==parejas){
+                            mensaje("Juego terminado, Lo logro en "+turnos);
+                        }
+                    }
+                    else{
+                         mensaje("Sigue intentando");
+                        btn.setText("↻");
+                        controlador.setText("↻");
+                    }
+                }
+                PanelBtn.updateUI();
             }
+            
         });
         PanelBtn.add(btn);
     }
-    public void Botones(int random){
+    public void Botones(int random, int parejas){
         Font font = new Font("Dialog", Font.PLAIN, 30);
         JButton btn= new JButton("↻");
         btn.setFont(font);
@@ -302,10 +331,76 @@ public class Ventana extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btn.setText(random+"");
+                insignia++;
+                if(insignia==1){
+                    comparador=btn.getText();
+                    controlador=btn;
+                }
+                if(insignia==2){  
+                    insignia=0;
+                    turnos++;
+                    txtTurnos.setText(turnos+"");
+                    if(btn.getText().equals(comparador)){
+                        encontradas++;
+                         mensaje("Pareja encontrada");
+                        PanelBtn.remove(controlador);
+                        PanelBtn.remove(btn);
+                        txtContador.setText(encontradas+"/"+parejas);
+                        if(encontradas==parejas){
+                            mensaje("Juego terminado, Lo logro en "+turnos);
+                        }
+                    }
+                    else{
+                         mensaje("Sigue intentando");
+                        btn.setText("↻");
+                        controlador.setText("↻");
+                    }
+                }
+                PanelBtn.updateUI();
             }
         });
         PanelBtn.add(btn);
-    }            
+    }
+    public void BotonesImagenes(int si,int parejas){
+        int nparejas=parejas;
+        Font font = new Font("Dialog", Font.PLAIN, 30);
+        JButton btn= new JButton("↻");
+        btn.setFont(font);
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn.setText(si+"");
+                insignia++;
+                if(insignia==1){
+                    comparador=btn.getText();
+                    controlador=btn;
+                }
+                if(insignia==2){  
+                    insignia=0;
+                    turnos++;
+                    txtTurnos.setText(turnos+"");
+                    if(btn.getText().equals(comparador)){
+                        encontradas++;
+                         pausa("Pareja encontrada");
+                        PanelBtn.remove(controlador);
+                        PanelBtn.remove(btn);
+                        txtContador.setText(encontradas+"/"+parejas);
+                    }
+                    else{
+                         pausa("Sigue intentando");
+                        btn.setText("↻");
+                        controlador.setText("↻");
+                    }
+                }
+                PanelBtn.updateUI();
+            }
+            
+        });
+        PanelBtn.add(btn);
+    }
+    public void mensaje(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCambio;
     private javax.swing.JList<String> ListaTop10;

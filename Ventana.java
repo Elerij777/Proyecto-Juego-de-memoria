@@ -4,6 +4,7 @@
  */
 package com.mycompany.proyectojuegomemoria;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -293,6 +294,9 @@ public class Ventana extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 btn.setText(si+"");
                 insignia++;
+                btn.setForeground(Color.WHITE);
+                btn.setBackground(Color.BLACK);
+                btn.setEnabled(false);
                 if(insignia==1){
                     comparador=btn.getText();
                     controlador=btn;
@@ -303,18 +307,24 @@ public class Ventana extends javax.swing.JFrame {
                     txtTurnos.setText(turnos+"");
                     if(btn.getText().equals(comparador)){
                         encontradas++;
-                         mensaje("Pareja encontrada");
+                        JOptionPane.showMessageDialog(null, "Pareja encontrada");
                         PanelBtn.remove(controlador);
                         PanelBtn.remove(btn);
                         txtContador.setText(encontradas+"/"+parejas);
                         if(encontradas==parejas){
-                            mensaje("Juego terminado, Lo logro en "+turnos);
+                            JOptionPane.showMessageDialog(null, "Juego terminado en "+turnos+" intentos");
                         }
                     }
                     else{
-                         mensaje("Sigue intentando");
+                        JOptionPane.showMessageDialog(null, "Sigue intentando");
                         btn.setText("↻");
                         controlador.setText("↻");
+                        btn.setForeground(Color.BLACK);
+                        btn.setBackground(Color.WHITE);
+                        controlador.setForeground(Color.BLACK);
+                        controlador.setBackground(Color.WHITE);
+                        btn.setEnabled(true);
+                        controlador.setEnabled(true);
                     }
                 }
                 PanelBtn.updateUI();
@@ -327,11 +337,15 @@ public class Ventana extends javax.swing.JFrame {
         Font font = new Font("Dialog", Font.PLAIN, 30);
         JButton btn= new JButton("↻");
         btn.setFont(font);
+        btn.setBackground(Color.WHITE);
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btn.setText(random+"");
                 insignia++;
+                btn.setForeground(Color.WHITE);
+                btn.setBackground(Color.BLACK);
+                btn.setEnabled(false);
                 if(insignia==1){
                     comparador=btn.getText();
                     controlador=btn;
@@ -339,67 +353,34 @@ public class Ventana extends javax.swing.JFrame {
                 if(insignia==2){  
                     insignia=0;
                     turnos++;
+                    
                     txtTurnos.setText(turnos+"");
                     if(btn.getText().equals(comparador)){
                         encontradas++;
-                         mensaje("Pareja encontrada");
+                         JOptionPane.showMessageDialog(null, "Pareja encontrada");
                         PanelBtn.remove(controlador);
                         PanelBtn.remove(btn);
                         txtContador.setText(encontradas+"/"+parejas);
                         if(encontradas==parejas){
-                            mensaje("Juego terminado, Lo logro en "+turnos);
+                            JOptionPane.showMessageDialog(null, "Juego terminado en "+turnos+" intentos");
                         }
                     }
                     else{
-                         mensaje("Sigue intentando");
+                         JOptionPane.showMessageDialog(null, "Sigue intentando");
                         btn.setText("↻");
                         controlador.setText("↻");
+                        btn.setForeground(Color.BLACK);
+                        btn.setBackground(Color.WHITE);
+                        controlador.setForeground(Color.BLACK);
+                        controlador.setBackground(Color.WHITE);
+                        btn.setEnabled(true);
+                        controlador.setEnabled(true);
                     }
                 }
                 PanelBtn.updateUI();
             }
         });
         PanelBtn.add(btn);
-    }
-    public void BotonesImagenes(int si,int parejas){
-        int nparejas=parejas;
-        Font font = new Font("Dialog", Font.PLAIN, 30);
-        JButton btn= new JButton("↻");
-        btn.setFont(font);
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn.setText(si+"");
-                insignia++;
-                if(insignia==1){
-                    comparador=btn.getText();
-                    controlador=btn;
-                }
-                if(insignia==2){  
-                    insignia=0;
-                    turnos++;
-                    txtTurnos.setText(turnos+"");
-                    if(btn.getText().equals(comparador)){
-                        encontradas++;
-                         pausa("Pareja encontrada");
-                        PanelBtn.remove(controlador);
-                        PanelBtn.remove(btn);
-                        txtContador.setText(encontradas+"/"+parejas);
-                    }
-                    else{
-                         pausa("Sigue intentando");
-                        btn.setText("↻");
-                        controlador.setText("↻");
-                    }
-                }
-                PanelBtn.updateUI();
-            }
-            
-        });
-        PanelBtn.add(btn);
-    }
-    public void mensaje(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCambio;

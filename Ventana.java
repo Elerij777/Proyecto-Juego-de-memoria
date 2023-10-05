@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 /**
  *
@@ -35,7 +35,6 @@ public class Ventana extends javax.swing.JFrame {
     int turnos,encontradas,insignia;
     String comparador,botonTipo;
     JButton controlador;
-    
     //declarar los modelos para los combobox
     DefaultComboBoxModel ModeloParejas = new DefaultComboBoxModel();
     DefaultComboBoxModel ModeloTipos = new DefaultComboBoxModel();
@@ -282,14 +281,14 @@ public class Ventana extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                if(botonTipo=="Numeros"){
+                if("Numeros".equals(botonTipo)){
                     btn.setText(random+"");
                 }
-                if(botonTipo=="Letras"){
+                if("Letras".equals(botonTipo)){
                     char si= (char)(random+64);
                     btn.setText(si+"");
                 }
-                if(botonTipo=="Imagenes"){
+                if("Imagenes".equals(botonTipo)){
                     btn.setText("No llego aun");
                 }
                 insignia++;
@@ -308,8 +307,10 @@ public class Ventana extends javax.swing.JFrame {
                     if(btn.getText().equals(comparador)){
                         encontradas++;
                          JOptionPane.showMessageDialog(null, "Pareja encontrada");
-                        PanelBtn.remove(controlador);
-                        PanelBtn.remove(btn);
+                        controlador.setEnabled(false);
+                        controlador.setBackground(Color.GRAY);
+                        btn.setEnabled(false);
+                        btn.setBackground(Color.GRAY);
                         txtContador.setText(encontradas+"/"+parejas);
                         if(encontradas==parejas){
                             JOptionPane.showMessageDialog(null, "Juego terminado en "+turnos+" intentos");
